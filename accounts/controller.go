@@ -81,6 +81,22 @@ func (c Controller) GetApproveList() (*ApprovalListResponse, error) {
 	return res, nil
 }
 
+func (c Controller) ApproveAdmin(a *Actor, ar *ApproveRequest, ra *RegisterApproval) (*ApproveResponse, error) {
+	valueToUpdate := map[string]interface{}{"verified": "true"}
+	valueRa := map[string]interface{}{"status": "approved"}
+
+	err := c.uc.ApproveAdmin(a, ar, ra, valueToUpdate, valueRa)
+
+	if err != nil {
+		return nil, err
+	}
+	res := ApproveResponse{
+		Message: "admin berhasil di approve",
+	}
+
+	return &res, nil
+}
+
 func NewController(uc *UseCase) *Controller {
 	return &Controller{
 		uc: uc,

@@ -27,3 +27,9 @@ type AdminRegisterResponse struct {
 type ApprovalListResponse struct {
 	AdminID []uint `json:"admin_id"`
 }
+type ApproveRequest struct {
+	AdminID int `json:"admin_id" binding:"required"`
+}
+type ApproveResponse struct {
+	Message string `json:"message"`
+}

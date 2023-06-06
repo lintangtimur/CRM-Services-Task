@@ -56,6 +56,25 @@ func (h RequestHandler) GetApprove(c *gin.Context) {
 
 }
 
+func (h RequestHandler) Approve(c *gin.Context) {
+	approveReq := ApproveRequest{}
+	if err := c.ShouldBindJSON(&approveReq); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "missing param"})
+		return
+	}
+
+	actors := Actor{}
+	regAp := RegisterApproval{}
+
+	res, err := h.ctrl.ApproveAdmin(&actors, &approveReq, &regAp)
+
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, res)
+}
+
 func NewRequestHandler(ctrl *Controller) *RequestHandler {
 	return &RequestHandler{ctrl: ctrl}
 }

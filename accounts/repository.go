@@ -40,6 +40,14 @@ func (r Repository) FindAllApproval() ([]Actor, error) {
 	return actor, err
 }
 
+func (r Repository) UpdateActor(a *Actor, ar *ApproveRequest, update map[string]interface{}) error {
+	return r.db.Model(&a).Where("id = ?", ar.AdminID).First(&a).Updates(update).Error
+}
+
+func (r Repository) UpdateStatusRA(ra *RegisterApproval, ar *ApproveRequest, val map[string]interface{}) error {
+	return r.db.Model(&ra).Where("admin_id = ?", ar.AdminID).Updates(val).Error
+}
+
 func NewRepository(db *gorm.DB) *Repository {
 	return &Repository{db}
 }

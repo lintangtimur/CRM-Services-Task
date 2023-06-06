@@ -20,6 +20,18 @@ func (u UseCase) GetApprovalList() ([]Actor, error) {
 	return u.repo.FindAllApproval()
 }
 
+func (u UseCase) ApproveAdmin(a *Actor, ar *ApproveRequest, ra *RegisterApproval, update map[string]interface{}, ra2 map[string]interface{}) error {
+	err := u.repo.UpdateActor(a, ar, update)
+	if err != nil {
+		return err
+	}
+	err = u.repo.UpdateStatusRA(ra, ar, ra2)
+	if err != nil {
+		return err
+	}
+	return err
+}
+
 func NewUseCase(repo *Repository) *UseCase {
 	return &UseCase{repo: repo}
 }
