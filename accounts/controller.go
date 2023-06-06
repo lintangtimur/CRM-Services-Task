@@ -3,6 +3,7 @@ package accounts
 import (
 	"CRM-Services-Task/utils"
 	"errors"
+	"github.com/gin-gonic/gin"
 )
 
 type Controller struct {
@@ -150,6 +151,33 @@ func (c Controller) DeleteAdmin(d *DeleteAdminRequest) (*DeleteAdminResponse, er
 	res := &DeleteAdminResponse{
 		Message: "data admin berhasil dihapus",
 	}
+	return res, nil
+}
+
+func (c Controller) GetAllAdmin(context *gin.Context) (*DataActorResponse, error) {
+	username := context.Query("username")
+
+	limit := context.DefaultQuery("limit", "5")
+	page := context.DefaultQuery("page", "1")
+
+	actor, err := c.uc.GetActorsByUsername(username, limit, page)
+	if err != nil {
+		return nil, err
+	}
+
+	res := &DataActorResponse{}
+	for _, act := range actor {
+		item := ActorResponse{
+			ID:       act.ID,
+			Username: act.Username,
+			Verified: act.Verified,
+			Active:   act.Active,
+			RoleID:   act.RoleID,
+		}
+
+		res.Data = append(res.Data, item)
+	}
+
 	return res, nil
 }
 

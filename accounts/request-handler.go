@@ -145,6 +145,17 @@ func (h RequestHandler) DeleteAdmin(c *gin.Context) {
 	c.JSON(http.StatusOK, res)
 }
 
+func (h RequestHandler) GetAllAdmins(con *gin.Context) {
+	res, err := h.ctrl.GetAllAdmin(con)
+
+	if err != nil {
+		con.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		return
+	}
+
+	con.JSON(http.StatusOK, res)
+}
+
 func NewRequestHandler(ctrl *Controller) *RequestHandler {
 	return &RequestHandler{ctrl: ctrl}
 }

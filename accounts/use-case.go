@@ -60,6 +60,10 @@ func (u UseCase) DeleteAdmin(a *Actor, d *DeleteAdminRequest) error {
 	return u.repo.DeleteAdmin(a, d)
 }
 
+func (u UseCase) GetActorsByUsername(username string, limit string, page string) ([]Actor, error) {
+	return u.repo.FindAllActors(username, limit, page)
+}
+
 func NewUseCase(repo *Repository) *UseCase {
 	return &UseCase{repo: repo}
 }

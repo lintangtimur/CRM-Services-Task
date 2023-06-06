@@ -1,6 +1,9 @@
 package accounts
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+	"strconv"
+)
 
 type Repository struct {
 	db *gorm.DB
@@ -61,6 +64,26 @@ func (r Repository) DeleteAdmin(a *Actor, d *DeleteAdminRequest) error {
 		return err
 	}
 	return r.db.Delete(&a).Error
+}
+
+func (r Repository) FindAllActors(username string, limit string, page string) ([]Actor, error) {
+	var actor []Actor
+	limits, _ := strconv.Atoi(limit)
+	pages, _ := strconv.Atoi(page)
+	offset := (pages - 1) * limits
+
+	err := r.db.Limit(limits).Offset(offset).Find(&actor).Error
+	search := r.db
+	if username != "" {
+		search = search.Where("username = ?", username)
+	}
+
+	err = search.Limit(limits).Offset(offset).Find(&actor).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return actor, err
 }
 
 func NewRepository(db *gorm.DB) *Repository {

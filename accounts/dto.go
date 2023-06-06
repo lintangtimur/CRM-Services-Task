@@ -54,3 +54,6 @@ type DeleteAdminRequest struct {
 type DeleteAdminResponse struct {
 	Message string `json:"message"`
 }
+type DataActorResponse struct {
+	Data []ActorResponse `json:"data"`
+}

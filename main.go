@@ -39,6 +39,7 @@ func main() {
 
 	protected.DELETE("/customers", crh.DeleteCustomer)
 	protected.GET("/customers", crh.GetAllCustomers)
+	protected.GET("/actors", arh.GetAllAdmins)
 
 	err = r.Run(":8080")
 	if err != nil {
