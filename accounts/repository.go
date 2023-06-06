@@ -30,6 +30,16 @@ func (r Repository) CreateAdmin(a *Actor) error {
 	return err
 }
 
+func (r Repository) FindAllApproval() ([]Actor, error) {
+	var actor []Actor
+
+	err := r.db.Preload("RA").Where("verified = 'false'").Find(&actor).Error
+	if err != nil {
+		return nil, err
+	}
+	return actor, err
+}
+
 func NewRepository(db *gorm.DB) *Repository {
 	return &Repository{db}
 }

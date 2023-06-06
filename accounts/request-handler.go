@@ -43,6 +43,19 @@ func (rh RequestHandler) CreateAdmin(c *gin.Context) {
 	c.JSON(http.StatusOK, res)
 }
 
+func (h RequestHandler) GetApprove(c *gin.Context) {
+
+	res, err := h.ctrl.GetApproveList()
+
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, res)
+
+}
+
 func NewRequestHandler(ctrl *Controller) *RequestHandler {
 	return &RequestHandler{ctrl: ctrl}
 }

@@ -24,3 +24,6 @@ type AdminRegisterResponse struct {
 	Status string        `json:"status"`
 	Data   ActorResponse `json:"data"`
 }
+type ApprovalListResponse struct {
+	AdminID []uint `json:"admin_id"`
+}

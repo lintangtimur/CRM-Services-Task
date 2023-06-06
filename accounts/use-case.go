@@ -16,6 +16,10 @@ func (u UseCase) CreateAdmin(a *Actor) error {
 	return u.repo.CreateAdmin(a)
 }
 
+func (u UseCase) GetApprovalList() ([]Actor, error) {
+	return u.repo.FindAllApproval()
+}
+
 func NewUseCase(repo *Repository) *UseCase {
 	return &UseCase{repo: repo}
 }

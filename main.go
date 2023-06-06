@@ -30,6 +30,7 @@ func main() {
 	protected.Use(middleware.JwtAuthMiddleware())
 	protected.POST("/customers/create", crh.CreateCustomer)
 	protected.POST("/actors/create", arh.CreateAdmin)
+	protected.GET("/actors/approve", middleware.SuperadminMiddleware(), arh.GetApprove)
 
 	err = r.Run(":8080")
 	if err != nil {

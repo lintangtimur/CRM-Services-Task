@@ -69,6 +69,18 @@ func (c Controller) CreateAdmin(a *AdminRegisterRequest) (*AdminRegisterResponse
 	return res, nil
 }
 
+func (c Controller) GetApproveList() (*ApprovalListResponse, error) {
+	acts, err := c.uc.GetApprovalList()
+	if err != nil {
+		return nil, err
+	}
+	res := &ApprovalListResponse{}
+	for _, act := range acts {
+		res.AdminID = append(res.AdminID, act.ID)
+	}
+	return res, nil
+}
+
 func NewController(uc *UseCase) *Controller {
 	return &Controller{
 		uc: uc,
