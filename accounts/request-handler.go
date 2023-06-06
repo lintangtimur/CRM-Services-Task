@@ -94,6 +94,23 @@ func (h RequestHandler) Reject(c *gin.Context) {
 	c.JSON(http.StatusOK, res)
 }
 
+func (h RequestHandler) Activate(c *gin.Context) {
+	req := ActivateAdminRequest{}
+
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	res, err := h.ctrl.ActivateAdmin(&req)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, res)
+}
+
 func NewRequestHandler(ctrl *Controller) *RequestHandler {
 	return &RequestHandler{ctrl: ctrl}
 }

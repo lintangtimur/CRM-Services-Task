@@ -112,6 +112,19 @@ func (c Controller) RejectAdmin(a *Actor, ar *ApproveRequest, ra *RegisterApprov
 	return &res, nil
 }
 
+func (c Controller) ActivateAdmin(a *ActivateAdminRequest) (*ActivateAdminResponse, error) {
+	actor := Actor{}
+	activeTrue := map[string]interface{}{"active": "true"}
+	err := c.uc.ActivateAdmin(&actor, a, activeTrue)
+	if err != nil {
+		return nil, err
+	}
+	res := &ActivateAdminResponse{
+		Message: "admin berhasil di aktifkan",
+	}
+	return res, nil
+}
+
 func NewController(uc *UseCase) *Controller {
 	return &Controller{
 		uc: uc,

@@ -5,6 +5,7 @@ type IAccount interface {
 	CreateAdmin(a *Actor) error
 	GetApprovalList() ([]Actor, error)
 	ApproveAdmin(a *Actor, ar *ApproveRequest, ra *RegisterApproval, update map[string]interface{}, ra2 map[string]interface{}) error
+	ActivateAdmin(a *Actor, aar *ActivateAdminRequest, activeTrue map[string]interface{}) error
 }
 type UseCase struct {
 	repo *Repository
@@ -44,6 +45,10 @@ func (u UseCase) RejectAdmin(a *Actor, ar *ApproveRequest, ra *RegisterApproval,
 		return err
 	}
 	return err
+}
+
+func (u UseCase) ActivateAdmin(a *Actor, aar *ActivateAdminRequest, activeTrue map[string]interface{}) error {
+	return u.repo.ActivateAdmin(a, aar, activeTrue)
 }
 
 func NewUseCase(repo *Repository) *UseCase {

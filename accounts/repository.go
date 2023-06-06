@@ -48,6 +48,10 @@ func (r Repository) UpdateStatusRA(ra *RegisterApproval, ar *ApproveRequest, val
 	return r.db.Model(&ra).Where("admin_id = ?", ar.AdminID).Updates(val).Error
 }
 
+func (r Repository) ActivateAdmin(a *Actor, aar *ActivateAdminRequest, activeTrue map[string]interface{}) error {
+	return r.db.Model(&a).Where("id = ?", aar.AdminID).First(&a).Updates(activeTrue).Error
+}
+
 func NewRepository(db *gorm.DB) *Repository {
 	return &Repository{db}
 }

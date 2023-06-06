@@ -36,3 +36,9 @@ type ApproveResponse struct {
 type RejectResponse struct {
 	Message string `json:"message"`
 }
+type ActivateAdminRequest struct {
+	AdminID uint `json:"admin_id" binding:"required"`
+}
+type ActivateAdminResponse struct {
+	Message string `json:"message"`
+}
