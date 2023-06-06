@@ -1,5 +1,7 @@
 package customers
 
+import "github.com/gin-gonic/gin"
+
 type Controller struct {
 	uc *UseCase
 }
@@ -44,6 +46,20 @@ func (c Controller) DeleteCustomer(d *DeleteCustomerRequest) (*DeleteCustomerRes
 		Message: "customer berhasil dihapus",
 	}
 	return res, nil
+}
+
+func (c Controller) SearchCustomers(con *gin.Context) ([]Customer, error) {
+	firstname := con.Query("first_name")
+	email := con.Query("email")
+	limit := con.DefaultQuery("limit", "5")
+	page := con.DefaultQuery("page", "1")
+
+	cust, err := c.uc.GetCustomersByNameAndEmail(firstname, email, limit, page)
+	if err != nil {
+		return nil, err
+	}
+
+	return cust, nil
 }
 
 func NewController(uc *UseCase) *Controller {

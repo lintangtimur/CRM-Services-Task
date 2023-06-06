@@ -38,6 +38,7 @@ func main() {
 	protected.DELETE("/actors", middleware.SuperadminMiddleware(), arh.DeleteAdmin)
 
 	protected.DELETE("/customers", crh.DeleteCustomer)
+	protected.GET("/actors", crh.GetAllCustomers)
 
 	err = r.Run(":8080")
 	if err != nil {
