@@ -7,7 +7,7 @@ type Repository struct {
 }
 
 func (r Repository) Login(a *Actor, lr *LoginRequest) error {
-	return r.db.Where("username = ?", lr.Username).First(&a).Error
+	return r.db.Where("username = ? and verified = 'true' and active = 'true'", lr.Username).First(&a).Error
 }
 
 func (r Repository) CreateAdmin(a *Actor) error {
