@@ -20,7 +20,7 @@ func main() {
 	}
 
 	arh := accounts.DefaultRequestHandler(db)
-
+	r.POST("/actors/login", arh.ActorLogin)
 	err = r.Run(":8080")
 	if err != nil {
 		return
