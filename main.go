@@ -2,6 +2,8 @@ package main
 
 import (
 	"CRM-Services-Task/accounts"
+	"CRM-Services-Task/customers"
+	"CRM-Services-Task/middleware"
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -20,7 +22,14 @@ func main() {
 	}
 
 	arh := accounts.DefaultRequestHandler(db)
+	crh := customers.DefaultRequestHandler(db)
+
 	r.POST("/actors/login", arh.ActorLogin)
+
+	protected := r.Group("")
+	protected.Use(middleware.JwtAuthMiddleware())
+	protected.POST("/customers/create", crh.CreateCustomer)
+
 	err = r.Run(":8080")
 	if err != nil {
 		return
