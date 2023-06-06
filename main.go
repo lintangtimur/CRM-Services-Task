@@ -29,6 +29,7 @@ func main() {
 	protected := r.Group("")
 	protected.Use(middleware.JwtAuthMiddleware())
 	protected.POST("/customers/create", crh.CreateCustomer)
+	protected.POST("/actors/create", arh.CreateAdmin)
 
 	err = r.Run(":8080")
 	if err != nil {

@@ -16,3 +16,11 @@ type LoginResponse struct {
 	User  ActorResponse
 	Token string `json:"token"`
 }
+type AdminRegisterRequest struct {
+	Username string `json:"username" binding:"required"`
+	Password string `json:"password" binding:"required"`
+}
+type AdminRegisterResponse struct {
+	Status string        `json:"status"`
+	Data   ActorResponse `json:"data"`
+}

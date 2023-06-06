@@ -26,6 +26,23 @@ func (h RequestHandler) ActorLogin(c *gin.Context) {
 	c.JSON(http.StatusOK, res)
 }
 
+func (rh RequestHandler) CreateAdmin(c *gin.Context) {
+	admin := AdminRegisterRequest{}
+
+	if err := c.ShouldBindJSON(&admin); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	res, err := rh.ctrl.CreateAdmin(&admin)
+
+	if err != nil {
+		c.JSON(400, gin.H{"message": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, res)
+}
+
 func NewRequestHandler(ctrl *Controller) *RequestHandler {
 	return &RequestHandler{ctrl: ctrl}
 }

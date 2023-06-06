@@ -10,3 +10,10 @@ type Actor struct {
 	Verified string `json:"verified" gorm:"type:enum('true','false');default:'false'"`
 	Active   string `json:"active" gorm:"type:enum('true','false');default:'false'"`
 }
+
+type RegisterApproval struct {
+	gorm.Model
+	AdminID      uint   `json:"admin_id"`
+	SuperAdminID uint   `json:"super_admin_id"`
+	Status       string `json:"status"`
+}

@@ -39,6 +39,36 @@ func (c Controller) Login(lr *LoginRequest) (*LoginResponse, error) {
 	return res, nil
 }
 
+func (c Controller) CreateAdmin(a *AdminRegisterRequest) (*AdminRegisterResponse, error) {
+	hashedPassword, err := utils.HashPassword(a.Password)
+	if err != nil {
+		return nil, err
+	}
+
+	actor := Actor{
+		Username: a.Username,
+		Password: hashedPassword,
+		RoleID:   2,
+	}
+
+	err = c.uc.CreateAdmin(&actor)
+	if err != nil {
+		return nil, err
+	}
+	res := &AdminRegisterResponse{
+		Status: "sukses",
+		Data: ActorResponse{
+			ID:       actor.ID,
+			Username: actor.Username,
+			RoleID:   actor.RoleID,
+			Verified: actor.Verified,
+			Active:   actor.Active,
+		},
+	}
+
+	return res, nil
+}
+
 func NewController(uc *UseCase) *Controller {
 	return &Controller{
 		uc: uc,
