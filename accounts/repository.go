@@ -56,6 +56,13 @@ func (r Repository) DeactivateAdmin(a *Actor, d *DeActivateAdminRequest, val map
 	return r.db.Model(&a).Where("id = ?", d.AdminID).First(&a).Updates(val).Error
 }
 
+func (r Repository) DeleteAdmin(a *Actor, d *DeleteAdminRequest) error {
+	if err := r.db.First(&a, d.AdminID).Error; err != nil {
+		return err
+	}
+	return r.db.Delete(&a).Error
+}
+
 func NewRepository(db *gorm.DB) *Repository {
 	return &Repository{db}
 }

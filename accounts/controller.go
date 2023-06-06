@@ -138,6 +138,21 @@ func (c Controller) DeactivateAdmin(d *DeActivateAdminRequest) (*DeActivateAdmin
 	return res, nil
 }
 
+func (c Controller) DeleteAdmin(d *DeleteAdminRequest) (*DeleteAdminResponse, error) {
+	admin := Actor{}
+
+	//cek dulu apakah dia superadmin atau admin
+	//karna admin tidak bisa menghapus admin yang lain atau dirinya sndiri atau superadmin
+	err := c.uc.DeleteAdmin(&admin, d)
+	if err != nil {
+		return nil, err
+	}
+	res := &DeleteAdminResponse{
+		Message: "data admin berhasil dihapus",
+	}
+	return res, nil
+}
+
 func NewController(uc *UseCase) *Controller {
 	return &Controller{
 		uc: uc,

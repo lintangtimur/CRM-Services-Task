@@ -48,3 +48,9 @@ type DeActivateAdminRequest struct {
 type DeActivateAdminResponse struct {
 	Message string `json:"message"`
 }
+type DeleteAdminRequest struct {
+	AdminID int `json:"admin_id" binding:"required"`
+}
+type DeleteAdminResponse struct {
+	Message string `json:"message"`
+}

@@ -35,6 +35,7 @@ func main() {
 	protected.PUT("/actors/reject", middleware.SuperadminMiddleware(), arh.Reject)
 	protected.PUT("/actors/activate", middleware.SuperadminMiddleware(), arh.Activate)
 	protected.PUT("/actors/deactivate", middleware.SuperadminMiddleware(), arh.Deactivate)
+	protected.DELETE("/actors", middleware.SuperadminMiddleware(), arh.DeleteAdmin)
 
 	protected.DELETE("/customers", crh.DeleteCustomer)
 

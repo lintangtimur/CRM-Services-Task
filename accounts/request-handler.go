@@ -128,6 +128,23 @@ func (h RequestHandler) Deactivate(c *gin.Context) {
 	c.JSON(http.StatusOK, res)
 }
 
+func (h RequestHandler) DeleteAdmin(c *gin.Context) {
+	dar := DeleteAdminRequest{}
+
+	if err := c.ShouldBindJSON(&dar); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	res, err := h.ctrl.DeleteAdmin(&dar)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, res)
+}
+
 func NewRequestHandler(ctrl *Controller) *RequestHandler {
 	return &RequestHandler{ctrl: ctrl}
 }
