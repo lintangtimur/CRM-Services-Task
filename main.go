@@ -32,6 +32,7 @@ func main() {
 	protected.POST("/actors/create", arh.CreateAdmin)
 	protected.GET("/actors/approve", middleware.SuperadminMiddleware(), arh.GetApprove)
 	protected.PUT("/actors/approve", middleware.SuperadminMiddleware(), arh.Approve)
+	protected.PUT("/actors/reject", middleware.SuperadminMiddleware(), arh.Reject)
 
 	err = r.Run(":8080")
 	if err != nil {

@@ -97,6 +97,21 @@ func (c Controller) ApproveAdmin(a *Actor, ar *ApproveRequest, ra *RegisterAppro
 	return &res, nil
 }
 
+func (c Controller) RejectAdmin(a *Actor, ar *ApproveRequest, ra *RegisterApproval) (*RejectResponse, error) {
+	valueToUpdate := map[string]interface{}{"verified": "false", "active": "false"}
+	valueRa := map[string]interface{}{"status": "rejected"}
+	err := c.uc.RejectAdmin(a, ar, ra, valueToUpdate, valueRa)
+
+	if err != nil {
+		return nil, err
+	}
+
+	res := RejectResponse{
+		Message: "admin berhasil di reject",
+	}
+	return &res, nil
+}
+
 func NewController(uc *UseCase) *Controller {
 	return &Controller{
 		uc: uc,

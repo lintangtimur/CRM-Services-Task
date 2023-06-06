@@ -33,3 +33,6 @@ type ApproveRequest struct {
 type ApproveResponse struct {
 	Message string `json:"message"`
 }
+type RejectResponse struct {
+	Message string `json:"message"`
+}

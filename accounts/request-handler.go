@@ -75,6 +75,25 @@ func (h RequestHandler) Approve(c *gin.Context) {
 	c.JSON(http.StatusOK, res)
 }
 
+func (h RequestHandler) Reject(c *gin.Context) {
+	rejectRequest := ApproveRequest{}
+	if err := c.ShouldBindJSON(&rejectRequest); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "missing param"})
+		return
+	}
+
+	actors := Actor{}
+	ra := RegisterApproval{}
+	res, err := h.ctrl.RejectAdmin(&actors, &rejectRequest, &ra)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		return
+	}
+	//update status di approval request
+
+	c.JSON(http.StatusOK, res)
+}
+
 func NewRequestHandler(ctrl *Controller) *RequestHandler {
 	return &RequestHandler{ctrl: ctrl}
 }
