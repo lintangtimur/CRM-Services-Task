@@ -31,6 +31,21 @@ func (c Controller) CreateCustomer(cc *CreateCustomerRequest) (*CreateCustomerRe
 	return res, nil
 }
 
+func (c Controller) DeleteCustomer(d *DeleteCustomerRequest) (*DeleteCustomerResponse, error) {
+	customer := Customer{}
+	err := c.uc.DeleteCustomer(&customer, d)
+
+	if err != nil {
+		return nil, err
+	}
+
+	res := &DeleteCustomerResponse{
+		Status:  "ok",
+		Message: "customer berhasil dihapus",
+	}
+	return res, nil
+}
+
 func NewController(uc *UseCase) *Controller {
 	return &Controller{
 		uc: uc,

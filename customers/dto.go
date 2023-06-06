@@ -16,3 +16,10 @@ type CreateCustomerResponse struct {
 	Status string `json:"status"`
 	Data   CustomerResponse
 }
+type DeleteCustomerRequest struct {
+	CustomerID uint `json:"customer_id" binding:"required"`
+}
+type DeleteCustomerResponse struct {
+	Status  string `json:"status"`
+	Message string `json:"message"`
+}

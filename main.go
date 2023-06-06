@@ -36,6 +36,8 @@ func main() {
 	protected.PUT("/actors/activate", middleware.SuperadminMiddleware(), arh.Activate)
 	protected.PUT("/actors/deactivate", middleware.SuperadminMiddleware(), arh.Deactivate)
 
+	protected.DELETE("/customers", crh.DeleteCustomer)
+
 	err = r.Run(":8080")
 	if err != nil {
 		return
