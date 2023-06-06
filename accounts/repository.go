@@ -52,6 +52,10 @@ func (r Repository) ActivateAdmin(a *Actor, aar *ActivateAdminRequest, activeTru
 	return r.db.Model(&a).Where("id = ?", aar.AdminID).First(&a).Updates(activeTrue).Error
 }
 
+func (r Repository) DeactivateAdmin(a *Actor, d *DeActivateAdminRequest, val map[string]interface{}) error {
+	return r.db.Model(&a).Where("id = ?", d.AdminID).First(&a).Updates(val).Error
+}
+
 func NewRepository(db *gorm.DB) *Repository {
 	return &Repository{db}
 }

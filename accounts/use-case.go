@@ -51,6 +51,10 @@ func (u UseCase) ActivateAdmin(a *Actor, aar *ActivateAdminRequest, activeTrue m
 	return u.repo.ActivateAdmin(a, aar, activeTrue)
 }
 
+func (u UseCase) DeactivateAdmin(a *Actor, d *DeActivateAdminRequest, val map[string]interface{}) error {
+	return u.repo.DeactivateAdmin(a, d, val)
+}
+
 func NewUseCase(repo *Repository) *UseCase {
 	return &UseCase{repo: repo}
 }

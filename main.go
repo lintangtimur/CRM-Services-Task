@@ -34,6 +34,7 @@ func main() {
 	protected.PUT("/actors/approve", middleware.SuperadminMiddleware(), arh.Approve)
 	protected.PUT("/actors/reject", middleware.SuperadminMiddleware(), arh.Reject)
 	protected.PUT("/actors/activate", middleware.SuperadminMiddleware(), arh.Activate)
+	protected.PUT("/actors/deactivate", middleware.SuperadminMiddleware(), arh.Deactivate)
 
 	err = r.Run(":8080")
 	if err != nil {

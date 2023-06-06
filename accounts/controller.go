@@ -125,6 +125,19 @@ func (c Controller) ActivateAdmin(a *ActivateAdminRequest) (*ActivateAdminRespon
 	return res, nil
 }
 
+func (c Controller) DeactivateAdmin(d *DeActivateAdminRequest) (*DeActivateAdminResponse, error) {
+	actor := Actor{}
+	activeTrue := map[string]interface{}{"active": "false"}
+	err := c.uc.DeactivateAdmin(&actor, d, activeTrue)
+	if err != nil {
+		return nil, err
+	}
+	res := &DeActivateAdminResponse{
+		Message: "admin berhasil di non-aktifkan",
+	}
+	return res, nil
+}
+
 func NewController(uc *UseCase) *Controller {
 	return &Controller{
 		uc: uc,
