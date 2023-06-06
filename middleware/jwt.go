@@ -29,8 +29,10 @@ func SuperadminMiddleware() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-		fmt.Println(claims)
-		if claims["role_id"] == 2 {
+		roleID_64 := claims["role_id"]
+		roleID := int(roleID_64.(float64))
+
+		if roleID == 2 {
 			//bukan superadmin
 			fmt.Println(claims["role_id"])
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "kamu bukan superadmin"})
