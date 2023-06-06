@@ -29,7 +29,8 @@ func SuperadminMiddleware() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-		if claims["role_id"] != 1 {
+		fmt.Println(claims)
+		if claims["role_id"] == 2 {
 			//bukan superadmin
 			fmt.Println(claims["role_id"])
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "kamu bukan superadmin"})
