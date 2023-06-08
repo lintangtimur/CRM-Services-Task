@@ -1,6 +1,8 @@
 package customers
 
 import (
+	"CRM-Services-Task/customers/dto"
+	"CRM-Services-Task/customers/entity"
 	"encoding/json"
 	"gorm.io/gorm"
 	"io/ioutil"
@@ -8,15 +10,20 @@ import (
 	"strconv"
 )
 
+type IRepo interface {
+	CreateCustomer(c *entity.Customer) error
+	DeleteCustomer(c *entity.Customer, d *dto.DeleteCustomerRequest) error
+	FindAllCustomers(firstname string, email string, limit string, page string) ([]entity.Customer, error)
+}
 type Repository struct {
 	db *gorm.DB
 }
 
-func (r Repository) CreateCustomer(c *Customer) error {
+func (r Repository) CreateCustomer(c *entity.Customer) error {
 	return r.db.Create(c).Error
 }
 
-func (r Repository) DeleteCustomer(c *Customer, d *DeleteCustomerRequest) error {
+func (r Repository) DeleteCustomer(c *entity.Customer, d *dto.DeleteCustomerRequest) error {
 	if err := r.db.First(&c, d.CustomerID).Error; err != nil {
 		return err
 	}
@@ -24,9 +31,9 @@ func (r Repository) DeleteCustomer(c *Customer, d *DeleteCustomerRequest) error 
 	return r.db.Delete(&c).Error
 }
 
-func (r Repository) FindAllCustomers(firstname string, email string, limit string, page string) ([]Customer, error) {
+func (r Repository) FindAllCustomers(firstname string, email string, limit string, page string) ([]entity.Customer, error) {
 	parseDataAndSave("https://reqres.in/api/users?page=2", r.db)
-	var customer []Customer
+	var customer []entity.Customer
 	limits, _ := strconv.Atoi(limit)
 	pages, _ := strconv.Atoi(page)
 	offset := (pages - 1) * limits
@@ -61,7 +68,7 @@ func parseDataAndSave(url string, db *gorm.DB) error {
 	}
 
 	// Membuat variabel untuk menyimpan respons JSON
-	var jsonResponse Response
+	var jsonResponse dto.Response
 
 	// Unmarshal byte menjadi struct Response
 	err = json.Unmarshal(body, &jsonResponse)
@@ -76,7 +83,7 @@ func parseDataAndSave(url string, db *gorm.DB) error {
 
 	// Iterasi setiap data dan lakukan proses insert ke database
 	for _, userData := range jsonResponse.Data {
-		user := Customer{
+		user := entity.Customer{
 			Email:     userData.Email,
 			FirstName: userData.FirstName,
 			LastName:  userData.LastName,

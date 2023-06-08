@@ -1,13 +1,17 @@
 package customers
 
-import "github.com/gin-gonic/gin"
+import (
+	"CRM-Services-Task/customers/dto"
+	"CRM-Services-Task/customers/entity"
+	"github.com/gin-gonic/gin"
+)
 
 type Controller struct {
 	uc *UseCase
 }
 
-func (c Controller) CreateCustomer(cc *CreateCustomerRequest) (*CreateCustomerResponse, error) {
-	cust := Customer{
+func (c Controller) CreateCustomer(cc *dto.CreateCustomerRequest) (*dto.CreateCustomerResponse, error) {
+	cust := entity.Customer{
 		FirstName: cc.FirstName,
 		LastName:  cc.LastName,
 		Email:     cc.Email,
@@ -20,9 +24,9 @@ func (c Controller) CreateCustomer(cc *CreateCustomerRequest) (*CreateCustomerRe
 		return nil, err
 	}
 
-	res := &CreateCustomerResponse{
+	res := &dto.CreateCustomerResponse{
 		Status: "sukses",
-		Data: CustomerResponse{
+		Data: dto.CustomerResponse{
 			FirstName: cust.FirstName,
 			LastName:  cust.LastName,
 			Email:     cust.Email,
@@ -33,22 +37,22 @@ func (c Controller) CreateCustomer(cc *CreateCustomerRequest) (*CreateCustomerRe
 	return res, nil
 }
 
-func (c Controller) DeleteCustomer(d *DeleteCustomerRequest) (*DeleteCustomerResponse, error) {
-	customer := Customer{}
+func (c Controller) DeleteCustomer(d *dto.DeleteCustomerRequest) (*dto.DeleteCustomerResponse, error) {
+	customer := entity.Customer{}
 	err := c.uc.DeleteCustomer(&customer, d)
 
 	if err != nil {
 		return nil, err
 	}
 
-	res := &DeleteCustomerResponse{
+	res := &dto.DeleteCustomerResponse{
 		Status:  "ok",
 		Message: "customer berhasil dihapus",
 	}
 	return res, nil
 }
 
-func (c Controller) SearchCustomers(con *gin.Context) ([]Customer, error) {
+func (c Controller) SearchCustomers(con *gin.Context) ([]entity.Customer, error) {
 	firstname := con.Query("first_name")
 	email := con.Query("email")
 	limit := con.DefaultQuery("limit", "5")

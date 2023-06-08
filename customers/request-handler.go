@@ -1,6 +1,7 @@
 package customers
 
 import (
+	"CRM-Services-Task/customers/dto"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	"net/http"
@@ -11,7 +12,7 @@ type RequestHandler struct {
 }
 
 func (rh RequestHandler) CreateCustomer(c *gin.Context) {
-	cust := CreateCustomerRequest{}
+	cust := dto.CreateCustomerRequest{}
 	if err := c.ShouldBindJSON(&cust); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -25,7 +26,7 @@ func (rh RequestHandler) CreateCustomer(c *gin.Context) {
 }
 
 func (rh RequestHandler) DeleteCustomer(c *gin.Context) {
-	dcr := DeleteCustomerRequest{}
+	dcr := dto.DeleteCustomerRequest{}
 	if err := c.ShouldBindJSON(&dcr); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

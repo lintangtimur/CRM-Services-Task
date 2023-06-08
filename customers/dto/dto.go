@@ -1,4 +1,4 @@
-package customers
+package dto
 
 type CreateCustomerRequest struct {
 	FirstName string `json:"first_name" binding:"required"`

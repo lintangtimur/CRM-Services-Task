@@ -1,4 +1,4 @@
-package customers
+package entity
 
 import (
 	"gorm.io/gorm"
