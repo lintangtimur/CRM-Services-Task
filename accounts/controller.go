@@ -4,7 +4,6 @@ import (
 	"CRM-Services-Task/accounts/dto"
 	"CRM-Services-Task/accounts/entity"
 	"CRM-Services-Task/utils"
-	"errors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -16,6 +15,7 @@ type Controller struct {
 
 func (c Controller) Login(lr *dto.LoginRequest) (*dto.LoginResponse, error) {
 	actor := entity.Actor{}
+
 	err := c.uc.Login(&actor, lr)
 
 	if err != nil {
@@ -23,8 +23,9 @@ func (c Controller) Login(lr *dto.LoginRequest) (*dto.LoginResponse, error) {
 	}
 	err = c.auth.VerifyPassword(actor.Password, lr.Password)
 	if err != nil {
-		return nil, errors.New("password tidak sama")
+		return nil, err
 	}
+
 	token, err := c.token.GenerateJwt(lr.Username, actor.RoleID)
 	if err != nil {
 		return nil, err
@@ -187,6 +188,8 @@ func (c Controller) GetAllAdmin(context *gin.Context) (*dto.DataActorResponse, e
 
 func NewController(uc *UseCase) *Controller {
 	return &Controller{
-		uc: uc,
+		uc:    uc,
+		auth:  &utils.Utils{},
+		token: &utils.LoginJwt{},
 	}
 }
