@@ -1,4 +1,4 @@
-package accounts
+package entity
 
 import "gorm.io/gorm"
 

@@ -1,6 +1,8 @@
 package accounts
 
 import (
+	"CRM-Services-Task/accounts/dto"
+	"CRM-Services-Task/accounts/entity"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 	"net/http"
@@ -11,7 +13,7 @@ type RequestHandler struct {
 }
 
 func (h RequestHandler) ActorLogin(c *gin.Context) {
-	loginRequest := LoginRequest{}
+	loginRequest := dto.LoginRequest{}
 	if err := c.ShouldBindJSON(&loginRequest); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -27,7 +29,7 @@ func (h RequestHandler) ActorLogin(c *gin.Context) {
 }
 
 func (rh RequestHandler) CreateAdmin(c *gin.Context) {
-	admin := AdminRegisterRequest{}
+	admin := dto.AdminRegisterRequest{}
 
 	if err := c.ShouldBindJSON(&admin); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -57,14 +59,14 @@ func (h RequestHandler) GetApprove(c *gin.Context) {
 }
 
 func (h RequestHandler) Approve(c *gin.Context) {
-	approveReq := ApproveRequest{}
+	approveReq := dto.ApproveRequest{}
 	if err := c.ShouldBindJSON(&approveReq); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "missing param"})
 		return
 	}
 
-	actors := Actor{}
-	regAp := RegisterApproval{}
+	actors := entity.Actor{}
+	regAp := entity.RegisterApproval{}
 
 	res, err := h.ctrl.ApproveAdmin(&actors, &approveReq, &regAp)
 
@@ -76,14 +78,14 @@ func (h RequestHandler) Approve(c *gin.Context) {
 }
 
 func (h RequestHandler) Reject(c *gin.Context) {
-	rejectRequest := ApproveRequest{}
+	rejectRequest := dto.ApproveRequest{}
 	if err := c.ShouldBindJSON(&rejectRequest); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "missing param"})
 		return
 	}
 
-	actors := Actor{}
-	ra := RegisterApproval{}
+	actors := entity.Actor{}
+	ra := entity.RegisterApproval{}
 	res, err := h.ctrl.RejectAdmin(&actors, &rejectRequest, &ra)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
@@ -95,7 +97,7 @@ func (h RequestHandler) Reject(c *gin.Context) {
 }
 
 func (h RequestHandler) Activate(c *gin.Context) {
-	req := ActivateAdminRequest{}
+	req := dto.ActivateAdminRequest{}
 
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -112,7 +114,7 @@ func (h RequestHandler) Activate(c *gin.Context) {
 }
 
 func (h RequestHandler) Deactivate(c *gin.Context) {
-	req := DeActivateAdminRequest{}
+	req := dto.DeActivateAdminRequest{}
 
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -129,7 +131,7 @@ func (h RequestHandler) Deactivate(c *gin.Context) {
 }
 
 func (h RequestHandler) DeleteAdmin(c *gin.Context) {
-	dar := DeleteAdminRequest{}
+	dar := dto.DeleteAdminRequest{}
 
 	if err := c.ShouldBindJSON(&dar); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
