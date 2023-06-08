@@ -9,7 +9,13 @@ import (
 	"time"
 )
 
-func GenerateJwt(username string, roleid uint) (string, error) {
+type IToken interface {
+	GenerateJwt(username string, roleid uint) (string, error)
+}
+type LoginJwt struct {
+}
+
+func (j LoginJwt) GenerateJwt(username string, roleid uint) (string, error) {
 	claims := jwt.MapClaims{
 		//"sub":  userId,
 		"name":    username,
